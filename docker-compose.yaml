@@ -35,7 +35,7 @@ services:
         npm run build-server
         npm run start-server
     depends_on:
-     - postgres_db
+      - postgres_db
     environment:
       SERVER_APP_PORT: ${SERVER_APP_PORT}
       NODE_ENV: ${SERVER_APP_ENV}
