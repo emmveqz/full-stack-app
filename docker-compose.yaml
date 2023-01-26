@@ -38,6 +38,8 @@ services:
         npm run build-ui
         npm run deploy-ui
         cd /home/node-react-app/src/web-server
+        npx knex migrate:up 001_add_users_table.js
+        npx knex seed:run --specific=001_seed_users_table.js
         npm run build-server
         npm run start-server
     depends_on:
