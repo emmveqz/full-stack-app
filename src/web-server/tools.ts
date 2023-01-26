@@ -1,6 +1,6 @@
 /**
- * @ToDo Import http library.
  */
+import axios from "axios"
 
 //
 
@@ -35,6 +35,15 @@ export const httpRequest = async (url: string, config?: IHttpConfig): Promise<IH
    */
 
   try {
+    const resp = await axios({
+      ...config,
+      method,
+      url,
+    })
+
+    body = resp.data
+    ok = resp.statusText.toLowerCase() === "ok"
+    status = resp.status
   }
   catch (ex) {
   }
