@@ -26,13 +26,21 @@ type IHttpResponse = {
 
 export const httpRequest = async (url: string, config?: IHttpConfig): Promise<IHttpResponse> => {
   const method = config?.method ?? HttpMethod.GET
-  let ok: boolean, status: number
+  let ok: boolean = false,
+    status: number = 500,
+    body: IHttpResponse["body"]
 
   /**
    * @ToDo Implement.
    */
 
+  try {
+  }
+  catch (ex) {
+  }
+
   return {
+    body,
     ok,
     status,
   }
