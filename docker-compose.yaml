@@ -37,6 +37,9 @@ services:
     depends_on:
       - postgres_db
     environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
       SERVER_APP_PORT: ${SERVER_APP_PORT}
       NODE_ENV: ${SERVER_APP_ENV}
       TZ: UTC
