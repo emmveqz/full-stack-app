@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  postgres_db:
+    container_name: postgres-db
+    build:
+      args:
+        DB_NAME: ${DB_NAME}
+        DB_USER: ${DB_USER}
+      context: .
+      dockerfile: Dockerfile-postgres-db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /data/postgres
+      TZ: UTC
+    network_mode: host
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - ./db-data:/data/postgres
+
+  node_react_app:
+    container_name: node-react-app
+    build:
+      context: .
+      dockerfile: Dockerfile-node-react-app
+    command:
+      - /bin/sh
+      - -c
+      - |
+        npm run build-ui
+        npm run deploy-ui
+        cd /home/node-react-app/src/web-server
+        npm run build-server
+        npm run start-server
+    depends_on:
+     - postgres_db
+    environment:
+      SERVER_APP_PORT: ${SERVER_APP_PORT}
+      NODE_ENV: ${SERVER_APP_ENV}
+      TZ: UTC
+    network_mode: host
+    ports:
+      - "${SERVER_APP_PORT}:${SERVER_APP_PORT}"
+    volumes:
+      - ./dist:/home/node-react-app/dist
+    working_dir: /home/node-react-app/src/web-ui

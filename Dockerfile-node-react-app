@@ -1,0 +1,14 @@
+FROM node:lts
+
+COPY ./src /home/node-react-app/src
+COPY ./dist /home/node-react-app/dist
+
+# Setting up the ui side.
+WORKDIR /home/node-react-app/src/web-ui
+
+RUN npm ci
+
+# Setting up the server side.
+WORKDIR /home/node-react-app/src/web-server
+
+RUN npm ci
