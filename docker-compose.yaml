@@ -12,8 +12,14 @@ services:
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PORT: ${DB_PORT}
       PGDATA: /data/postgres
       TZ: UTC
+    healthcheck:
+      test: psql --version
+      interval: 2s
+      timeout: 3s
+      retries: 4
     network_mode: host
     ports:
       - "${DB_PORT}:${DB_PORT}"
@@ -35,8 +41,11 @@ services:
         npm run build-server
         npm run start-server
     depends_on:
-      - postgres_db
+      postgres_db:
+        condition: service_healthy
     environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
