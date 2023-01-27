@@ -5,6 +5,7 @@ exports.up = (knex) => {
       table.increments("id");
       table.string("name", 255).notNullable();
       table.string("email", 255).notNullable();
+      table.string("merchant_id", 255).nullable();
     });
 };
 

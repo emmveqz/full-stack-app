@@ -1,11 +1,17 @@
 import express from "express"
+import bodyParser from "body-parser"
 import {
 	promises as fs,
 	constants as fsConstants,
 } from "fs"
 import path from "path"
 import {
+	createMerchant,
+	createUser,
+	findUser,
   httpRequest,
+	IUser,
+	updateUser,
 } from "./tools"
 
 //
@@ -21,6 +27,11 @@ type IApiResponse<T> = {
 	data?: T,
 	msg?: string,
 	status: ApiResponseStatus,
+}
+
+type IRequestMerchantParams = {
+	email?: string,
+	name?: string,
 }
 
 enum ApiResponseStatus {
@@ -47,16 +58,29 @@ const parseParams = (urlParams: any): any => {
    */
 }
 
-const getResult = async (urlParams: any): Promise<any> => {
-	const parsedParams = parseParams(urlParams)
+const getMerchant = async (reqParams: IRequestMerchantParams): Promise<IUser|Error> => {
+	if (!reqParams.email || !reqParams.name) {
+		return new Error("mandatory fields missing")
+	}
 
-	if (parsedParams instanceof Error) {
-		return parsedParams
-  }
+	try {
+		let user: IUser|Error|undefined = await findUser(reqParams.email)
 
-  /**
-   * @ToDo Implement result.
-   */
+		if (!user?.merchant_id) {
+			user = await createMerchant(user ? user : reqParams as IUser)
+
+			if ( !(user instanceof Error) ) {
+				user = user.id
+					? await updateUser(user)
+					: await createUser(user)
+			}
+		}
+
+		return user
+	}
+	catch (ex) {
+		return new Error((ex as Error).message)
+	}
 }
 
 const requestFile = async (url: string): Promise<string> => {
@@ -77,9 +101,10 @@ const requestFile = async (url: string): Promise<string> => {
 }
 
 const server = express()
+server.use( bodyParser.json() )
 
-server.get("/api/somefunction(/)?:urlParams?", async (req, resp) => {
-	const result = await getResult(req.params.urlParams)
+server.post("/api/getmerchant(/)?", async (req, resp) => {
+	const result = await getMerchant(req.body)
 
 	if (result instanceof Error) {
 		resp.json( getApiResponse(ApiResponseStatus.Error, null, result.message) )
