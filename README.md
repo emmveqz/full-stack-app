@@ -8,7 +8,14 @@
 
 ### Instructions
 
- - Set your environment variables in [`.env`](./.env)
+ - Set your environment variables in [`.env`](./.env)  
+   You will need to set the API keys  
+   `PAYENGINE_API_KEY`  
+   `PAYENGINE_API_SECRET`  
+   in [.env](./.env)  
+   and  
+   `PayEnginePublicKey`  
+   in [src/web-ui/config/index.ts](./src/web-ui/config/index.ts)
  - Build and run the app with:  
    `docker-compose up node_react_app`
  - (Alternatively) you can run it dettached mode:  
