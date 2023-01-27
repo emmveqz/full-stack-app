@@ -18,8 +18,6 @@ import {
 
 const HTTP_PORT		= parseInt(process.env.SERVER_APP_PORT || "0", 10) || 80
 const PUBLIC_DIR	= path.resolve(__dirname,	"./public")
-const apiKey		= "89a35b48a9b4dd75c19e0df34874d986"
-const apiUrl		= `https://api.endpoint/call?apiKey=${apiKey}`
 
 //
 
