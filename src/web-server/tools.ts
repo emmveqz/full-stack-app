@@ -123,6 +123,9 @@ export const updateUser = async ({ id, ...user }: IUser): Promise<IUser|Error> =
     await db("users")
       .where({ id })
       .update(user)
+    ;
+
+    (user as IUser).id = id
   }
   catch (ex) {
     new Error((ex as Error).message)
