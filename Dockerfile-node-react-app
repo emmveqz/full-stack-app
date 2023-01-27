@@ -1,7 +1,6 @@
 FROM node:lts
 
 COPY ./src /home/node-react-app/src
-COPY ./dist /home/node-react-app/dist
 
 # Setting up the ui side.
 WORKDIR /home/node-react-app/src/web-ui
