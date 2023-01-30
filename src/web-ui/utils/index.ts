@@ -33,11 +33,3 @@ export const withTryCatch: IWithTryCatch = (func) => {
 export const withAsyncTryCatch: IWithAsyncTryCatch = (func) => {
   return (...args) => asyncTryCatch(func, ...args)
 }
-
-const dummy = async (bar: string) => {
-  return 3
-}
-
-const foo = withAsyncTryCatch(dummy)
-
-const bar = foo("")
