@@ -6,6 +6,12 @@ import type {
 
 //
 
+export type OmitProp<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+
+export type INullableProps<T> = {
+	[prop in keyof T]?: T[prop]
+}
+
 export type IHttpConfig = {
   asJson?: boolean,
   data?: string,
