@@ -1,5 +1,6 @@
 {
 	"editor.formatOnSave": false,
 	"editor.insertSpaces": true,
-	"editor.tabSize": 2
+	"editor.tabSize": 2,
+	"typescript.tsdk": "./src/web-ui/node_modules/typescript/lib"
 }
