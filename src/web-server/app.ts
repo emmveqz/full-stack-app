@@ -1,5 +1,28 @@
 import express from "express"
 import bodyParser from "body-parser"
+import {
+	promises as fs,
+	constants as fsConstants,
+} from "fs"
+import path from "path"
+import {
+  HTTP_PORT,
+} from "./config"
+import {
+  ApiResponseStatus,
+} from "./enums"
+import {
+  httpRequest,
+} from "./tools"
+import {
+  findFilePath,
+  getApiResponse,
+} from "./utils"
+
+//
+
+const apiKey		= "89a35b48a9b4dd75c19e0df34874d986"
+const apiUrl		= `https://api.endpoint/call?apiKey=${apiKey}`
 
 //
 
@@ -9,6 +32,17 @@ const parseParams = (urlParams: any): any => {
    */
 }
 
+const getResult = async (urlParams: any): Promise<any> => {
+	const parsedParams = parseParams(urlParams)
+
+	if (parsedParams instanceof Error) {
+		return parsedParams
+  }
+
+  /**
+   * @ToDo Implement result.
+   */
+}
 
 const server = express()
 server.use( bodyParser.json() )
@@ -29,7 +63,7 @@ server.get("/api*", async (req, resp) => {
 })
 
 server.get("/*", async (req, resp) => {
-	resp.sendFile( await requestFile(req.url) )
+	resp.sendFile( await findFilePath(req.url) )
 })
 
 server
