@@ -1,4 +1,4 @@
-# Fuill Stack App
+# Full Stack App
 
 
 ### Pre-requisites
@@ -10,8 +10,8 @@
 
  - Set your environment variables in [`.env`](./.env)
  - Build and run the app with:  
-   `docker-compose up node_react_app`
- - (Alternatively) you can run it dettached mode:  
+   `docker-compose up node_react_app`  
+   (Alternatively) you can run it dettached mode:  
    `docker-compose up -d node_react_app`
  - Access the app in your browser with the url:  
    `http://localhost:8080`
