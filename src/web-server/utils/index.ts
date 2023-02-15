@@ -1,4 +1,9 @@
 
+import axios from "axios"
+import {
+  Request,
+  Response,
+} from "express"
 import {
 	promises as fs,
 	constants as fsConstants,
@@ -7,7 +12,7 @@ import path from "path"
 import {
   PUBLIC_DIR,
 } from "../config"
-import type {
+import {
   ApiResponseStatus,
 } from "../enums"
 import {
@@ -27,6 +32,17 @@ export const getApiResponse = <T>(status: ApiResponseStatus, data?: T, msg?: str
 		msg,
 		status,
 	}
+}
+
+export const callMethod = async <T>(promise: Promise<T|Error>, req: Request, resp: Response) => {
+	const result = await promise
+
+	if (result instanceof Error) {
+		resp.json( getApiResponse(ApiResponseStatus.Error, null, result.message) )
+		return
+	}
+
+	resp.json( getApiResponse(ApiResponseStatus.Success, result) )
 }
 
 /**
@@ -57,12 +73,21 @@ export const httpRequest = async (url: string, config?: IHttpConfig): Promise<IH
     body: IHttpResponse["body"]
 
   /**
-   * @ToDo Implement.
    */
 
   try {
+    const resp = await axios({
+      ...config,
+      method,
+      url,
+    })
+
+    body = resp.data
+    ok = resp.statusText.toLowerCase() === "ok"
+    status = resp.status
   }
   catch (ex) {
+    console.log(ex)
   }
 
   return {

@@ -22,7 +22,7 @@ const RequiredFields: Array<keyof IFieldsMap> = [
 
 const getMerchantId = async (fieldsValues: IFieldsMap): Promise<string|Error> => {
   try {
-    const response = await fetch(`${ApiEndpoint}/api/getmerchant`, {
+    const response = await fetch(`${ApiEndpoint}/api/user`, {
       body: JSON.stringify(fieldsValues),
       headers: {
         'Content-Type': "application/json",
