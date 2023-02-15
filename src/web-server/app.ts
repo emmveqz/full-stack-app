@@ -5,41 +5,25 @@ import {
 } from "fs"
 import path from "path"
 import {
+  HTTP_PORT,
+} from "./config"
+import {
+  ApiResponseStatus,
+} from "./enums"
+import {
   httpRequest,
 } from "./tools"
+import {
+  findFilePath,
+  getApiResponse,
+} from "./utils"
 
 //
 
-const HTTP_PORT		= parseInt(process.env.SERVER_APP_PORT || "0", 10) || 80
-const PUBLIC_DIR	= path.resolve(__dirname,	"./public")
 const apiKey		= "89a35b48a9b4dd75c19e0df34874d986"
 const apiUrl		= `https://api.endpoint/call?apiKey=${apiKey}`
 
 //
-
-type IApiResponse<T> = {
-	data?: T,
-	msg?: string,
-	status: ApiResponseStatus,
-}
-
-enum ApiResponseStatus {
-	Unknown,
-	Success,
-	Info,
-	Warning,
-	Error,
-}
-
-//
-
-const getApiResponse = <T>(status: ApiResponseStatus, data?: T, msg?: string): IApiResponse<T> => {
-	return {
-		data,
-		msg,
-		status,
-	}
-}
 
 const parseParams = (urlParams: any): any => {
   /**
@@ -57,23 +41,6 @@ const getResult = async (urlParams: any): Promise<any> => {
   /**
    * @ToDo Implement result.
    */
-}
-
-const requestFile = async (url: string): Promise<string> => {
-	const fileName = url === "/"
-		? "index.html"
-		: (url[0] === "/" ? url.substr(1) : url)
-
-	const fullFileName = path.resolve(PUBLIC_DIR, fileName)
-
-	try {
-		await fs.access(fullFileName, fsConstants.F_OK)
-		return fullFileName
-	}
-	catch (err) {
-		console.log(err)
-		return path.resolve(PUBLIC_DIR, "404.html")
-	}
 }
 
 const server = express()
@@ -94,7 +61,7 @@ server.get("/api*", async (req, resp) => {
 })
 
 server.get("/*", async (req, resp) => {
-	resp.sendFile( await requestFile(req.url) )
+	resp.sendFile( await findFilePath(req.url) )
 })
 
 server
