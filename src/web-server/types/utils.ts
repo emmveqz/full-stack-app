@@ -19,6 +19,9 @@ export type IHttpResponse = {
   status: number,
 }
 
+/**
+ * @todo Maybe migrate this to `@emmveqz/utils`
+ */
 export type IApiResponse<T> = {
 	data?: T,
 	msg?: string,

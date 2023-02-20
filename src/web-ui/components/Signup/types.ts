@@ -31,6 +31,9 @@ export type IUser = {
   merchant_id: string,
 }
 
+/**
+ * @todo Maybe migrate this to `@emmveqz/utils`
+ */
 export type IApiResponse<T> = {
 	data?: T,
 	msg?: string,
