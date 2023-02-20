@@ -5,8 +5,7 @@ import {
 import {
   withAsyncTryCatch,
 } from "@emmveqz/utils"
-import {
-  ApiResponseStatus,
+import type {
   IApiResponse,
   IBLResult,
   IFieldsMap,
@@ -15,6 +14,9 @@ import {
 import {
   ApiEndpoint,
 } from "../../config"
+import {
+  ApiResponseStatus,
+} from "../../enums"
 
 //
 

@@ -1,4 +1,7 @@
 import React from "react"
+import type {
+  ApiResponseStatus,
+} from "../../enums"
 
 //
 
@@ -26,14 +29,6 @@ export type IUser = {
   name: string,
   email: string,
   merchant_id: string,
-}
-
-export enum ApiResponseStatus {
-	Unknown,
-	Success,
-	Info,
-	Warning,
-	Error,
 }
 
 export type IApiResponse<T> = {
