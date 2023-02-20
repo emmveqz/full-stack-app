@@ -4,6 +4,9 @@ export enum HttpMethod {
   POST = "post",
 }
 
+/**
+ * @todo Maybe migrate this to `@emmveqz/utils`
+ */
 export enum ApiResponseStatus {
 	Unknown,
 	Success,
