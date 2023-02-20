@@ -4,11 +4,15 @@
 ### Pre-requisites
 
  - Have `docker` and `docker-compose` installed
+ - Create an access token from your github account with `read:packages` permissions.
 
 
 ### Instructions
 
- - Set your environment variables in [`.env`](./.env)
+ - Set your environment variables in [`.env`](./.env)  
+   Set your github access token in:  
+   `GITHUB_AUTH_TOKEN`  
+   in order to be able to install npm packages from the `@emmveqz` scope.  
  - Build and run the app with:  
    `docker-compose up node_react_app`  
    (Alternatively) you can run it dettached mode:  
