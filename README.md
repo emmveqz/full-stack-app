@@ -4,11 +4,15 @@
 ### Pre-requisites
 
  - Have `docker` and `docker-compose` installed
+ - Create an access token from your github account with `read:packages` permissions.
 
 
 ### Instructions
 
  - Set your environment variables in [`.env`](./.env)  
+   Set your github access token in:  
+   `GITHUB_AUTH_TOKEN`  
+   in order to be able to install npm packages from the `@emmveqz` scope.  
    You will need to set the API keys  
    `PAYENGINE_API_KEY`  
    `PAYENGINE_API_SECRET`  
