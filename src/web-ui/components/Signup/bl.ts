@@ -3,6 +3,9 @@ import {
   useState,
 } from "react"
 import {
+  withAsyncTryCatch,
+} from "@emmveqz/utils"
+import {
   ApiResponseStatus,
   IApiResponse,
   IBLResult,
@@ -20,32 +23,26 @@ const RequiredFields: Array<keyof IFieldsMap> = [
   "name",
 ]
 
-const getMerchantId = async (fieldsValues: IFieldsMap): Promise<string|Error> => {
-  try {
-    const response = await fetch(`${ApiEndpoint}/api/user`, {
-      body: JSON.stringify(fieldsValues),
-      headers: {
-        'Content-Type': "application/json",
-      },
-      method: "post",
-    })
+const getMerchantId = withAsyncTryCatch(async (fieldsValues: IFieldsMap): Promise<string|Error> => {
+  const response = await fetch(`${ApiEndpoint}/api/user`, {
+    body: JSON.stringify(fieldsValues),
+    headers: {
+      'Content-Type': "application/json",
+    },
+    method: "post",
+  })
 
-    const result: IApiResponse<IUser> = await response.json()
+  const result: IApiResponse<IUser> = await response.json()
 
-    if (result.status !== ApiResponseStatus.Success) {
-      return new Error(result.msg)
-    }
-    else if (!result.data) {
-      return new Error("could not retrieve data")
-    }
-    else {
-      return result.data.merchant_id
-    }
+  if (result.status !== ApiResponseStatus.Success) {
+    return new Error(result.msg)
   }
-  catch (ex) {
-    return new Error((ex as Error).message)
+  else if (!result.data) {
+    return new Error("could not retrieve data")
   }
-}
+
+  return result.data.merchant_id
+})
 
 export const useSignupBL = (): IBLResult => {
   const [errors, setErrors] = useState<IBLResult["errors"]>({})
@@ -90,18 +87,13 @@ export const useSignupBL = (): IBLResult => {
       return
     }
 
-    try {
-      const merchId = await getMerchantId(fieldsValues)
+    const merchId = await getMerchantId(fieldsValues)
 
-      if (merchId instanceof Error) {
-        setMessage(merchId.message)
-      }
-      else {
-        setMerchantId(merchId)
-      }
+    if (merchId instanceof Error) {
+      setMessage(merchId.message)
     }
-    catch (ex) {
-      setMessage((ex as Error).message)
+    else {
+      setMerchantId(merchId)
     }
   }, [
     errors,

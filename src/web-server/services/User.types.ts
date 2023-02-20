@@ -1,13 +1,14 @@
 
 import type {
+  INullableProps,
+  OmitProp,
+} from "@emmveqz/utils/dist/types/utils"
+import type {
   IUser,
 } from "../models/User"
 import type {
   IMerchant,
 } from "../models/Merchant"
-import type {
-  OmitProp, INullableProps,
-} from "../types/utils"
 
 //
 
