@@ -1,13 +1,16 @@
 FROM node:lts
 
+ARG GITHUB_AUTH_TOKEN
 COPY ./src /home/node-react-app/src
 
 # Setting up the ui side.
 WORKDIR /home/node-react-app/src/web-ui
 
+RUN echo ${GITHUB_AUTH_TOKEN} >> ./.npmrc
 RUN npm ci
 
 # Setting up the server side.
 WORKDIR /home/node-react-app/src/web-server
 
+RUN echo ${GITHUB_AUTH_TOKEN} >> ./.npmrc
 RUN npm ci
